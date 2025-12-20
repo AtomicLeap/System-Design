@@ -1,7 +1,69 @@
 # Parking Lot System
 
 """
-Design a Parking Lot system.
+Design a Parking Lot system that supports the following:
+
+- Multiple parking levels per parking lot.
+- For each level 20% of the spots are `Small`, 50% are `Medium`, 20% are `Large` 
+    and 10% are XLarge.
+- Vehicles of type `Motorcycle`, `Car`, `Bus` and `Truck`.
+- Spots of size `Small`, `Medium`, `Large` and `XLarge`.
+- `Motorcycles` are only allowed to park in `Small` spots.
+- `Cars` are only allowed to park in `Medium` spots.
+- `Buses` are only allowed to park in `Large` spots.
+- `Trucks` are only allowed to park in `XLarge` spots.
+- Track each parked vehicle by its license plate, mapping it directly to a spot.
+- Return the total number of available spots that can fit a given vehicle type.
+
+Implement the following methods:
+
+- `Vehicle(licensePlate: string, vehicleType: VehicleType) -> void`: Initialize a vehicle.
+- `ParkingSpot(spotId: string, size: SpotSize) -> void`: Initialize a parking spot.
+- `ParkingLevel(levelId: string, numSpots: number) -> void`: Initialize a parking level.
+- `ParkingLot(numLevels: number, spotsPerLevel: number) -> void`: Initialize a parking lot.
+- `parkVehicle(vehicle: Vehicle) -> boolean`: If the vehicle is already parked or there are 
+    no available spaces return `false` otherwise park the vehicle and return `true`.
+- `removeVehicle(licensePlate: string) -> boolean`: If the vehicle is not in the parking lot 
+    return `false` otherwise remove the vehicle and return `true`.
+- `getAvailableSpots(vehicleType: VehicleType) -> number`: Given a vehicle type return the 
+    number of available spots in the parking lot for that type of vehicle.
+
+Example 1:
+
+Input:
+["Vehicle", "Vehicle", "Vehicle", "ParkingLot", "park_vehicle", "park_vehicle", 
+    "get_available_spots", "park_vehicle", "remove_vehicle", "get_available_spots"]
+[["C123", "Car"], ["B999", "Bus"], ["M001", "Motorcycle"], [2, 10], ["C123"], ["B999"], 
+    ["Motorcycle"], ["M001"], ["C123"], ["Car"]]
+
+Output:
+[null, null, null, null, true, true, 4, true, true, 10]
+
+Explanation:
+# 1 - Create the vehicles
+v_car  = Vehicle("C123", VehicleType.CAR)                 # → null
+v_bus  = Vehicle("B999", VehicleType.BUS)                 # → null
+v_moto = Vehicle("M001", VehicleType.MOTORCYCLE)          # → null
+
+# 2 - Create a parking lot with 2 levels × 10 spots each
+lot = ParkingLot(2, 10)                                    # → null
+# Each level:  2 Small, 5 Medium, 3 Large
+# Totals:      4 Small, 10 Medium, 6 Large (2 levels)
+
+# 3 - Operations
+lot.park_vehicle(v_car)                                    # → true   (uses 1 Medium spot)
+lot.park_vehicle(v_bus)                                    # → true   (uses 1 Large  spot)
+lot.get_available_spots(VehicleType.MOTORCYCLE)            # → 4      (all 4 Small still free)
+lot.park_vehicle(v_moto)                                   # → true   (now 3 Small remain)
+lot.remove_vehicle("C123")                                 # → true   (frees the Medium spot)
+lot.get_available_spots(VehicleType.CAR)                   # → 10     (all Medium spots free again)
+
+Constraints:
+
+- `1 <= number of vehicles, number of parking levels <= 100`
+- `10 <= number of parking spots <= 10^4`
+- At most `10^4` total calls will be made to `parkVehicle`, `removeVehicle`, and `getAvailableSpots`.
+
 """
 
 # 1. Requirements
@@ -9,7 +71,7 @@ Design a Parking Lot system.
 """
 # 1a. Functional Requirements
 
-1. A user should be able to view available parking spots.
+1. A user should be able to view available parking spots as per Vehicle Type.
 2. A user should be able to request a parking spot by vehicle size and registration number.
 3. A user should be assigned a parking spot and the spot removed from list of available spots.
 4. A user should be able to exit a parking spot and the spot listed again in list of available spots.
@@ -20,7 +82,7 @@ Design a Parking Lot system.
     - multi-level parking lot with up to 10 levels.
     - each level has same amount of parking spots.
     - each level parking distributed as follows: SMALL - 20%, MEDIUM - 50%, LARGE - 20% and XLARGE - 10%. 
-2. Parking spots for vehicles of sizes, SMALL (S), MEDIUM (M), LARGE (L) AND EXTRALARGE(XL).
+2. Parking spots for vehicles of sizes, SMALL (S), MEDIUM (M), LARGE (L) AND XLARGE(XL).
 3. Vehicles can only park in spots that corresponds to vehicle size only.
     - Motorcycles -> SMALL, Car -> MEDIUM, Bus -> LARGE, and Truck -> XLARGE.
 4. High avalability for viewing spots and high consistency for assigning spots.
@@ -113,7 +175,7 @@ class ParkingSpot:
             VehicleType.MOTORCYCLE: SpotSize.SMALL,
             VehicleType.CAR: SpotSize.MEDIUM,
             VehicleType.BUS: SpotSize.LARGE,
-            VehicleType.TRUCK: SpotSize.EXTRALARGE
+            VehicleType.TRUCK: SpotSize.XLARGE
         }
         return self.size == size_map[vehicle.vehicle_type]
 
@@ -206,3 +268,21 @@ class ParkingLot:
 
     def get_available_spots(self, vehicle_type: VehicleType) -> int:
         return sum(level.get_available_spots_count(vehicle_type) for level in self.levels)
+
+
+# Time Complexity (ParkingLot):
+
+"""
+- Initialization: `O(n)` where `n` = total spots
+- Park vehicle: `O(n)` — linear search for available spot
+- Remove vehicle: `O(1)` — hash map lookup
+- Get available spots: `O(n)` — scan all spots
+"""
+
+# Space Complexity:
+
+"""
+- `O(n)` for storing spots (and spot lookup map)
+
+**Key optimization:** Used a hash map to make vehicle removal `O(1)`.
+"""
