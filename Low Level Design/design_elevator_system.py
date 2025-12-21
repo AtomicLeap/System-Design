@@ -1,8 +1,57 @@
 # Elevator System
 
 """
-Design a simple in-memory simulation of a bank of elevators serving a range of floors
+A simple in-memory simulation of a bank of elevators serving a range of floors, 
 processing hall and cabin requests in discrete time steps.
+
+Implement the following methods:
+- `ElevatorController(n: int, minFloor: int, maxFloor: int) -> void`: Construct 
+    a controller with `n` cars serving floors `minFloor` … `maxFloor`.
+- `processRequests(cmds: string[]) -> void`: Parse and enqueue each `"REQUEST F DIR"` command; 
+    then repeatedly advance time until no elevator has pending requests.
+- `getElevatorFloor(eid: int) -> int`: Return the current floor of car `eid`.
+- `getElevatorState(eid: int) -> ElevatorState`: Return the current state of car `eid`: 
+    `MOVING`, `STOPPED`, or `DOOR_OPEN`.
+- `getElevatorDirection(eid: int) -> Direction`: Return the current travel direction of car 
+    `eid`: `UP`, `DOWN`, or `IDLE`.
+
+Notes:
+- `"REQUEST F DIR"` strings use integer floor `F` and direction `DIR ∈ {UP, DOWN}`.
+- Dispatch policy is **nearest-car**: each request is assigned to the elevator whose 
+    current floor is closest to `F`.
+- Time advances in discrete “step” units hidden inside `processRequests`; doors open 
+    instantly (no real wait).
+- Once all pending requests are served, elevators reset direction to `IDLE`.
+
+Example 1:
+
+Input:
+operations = ["ElevatorController", "processRequests", "getElevatorFloor", "getElevatorState", "getElevatorDirection"]
+arguments = [[2, 1, 10],
+             ["REQUEST 3 UP",
+              "REQUEST 7 DOWN",
+              "REQUEST 5 UP"],
+             [1],
+             [1],
+             [1]]
+
+Output:
+[null, null, 5, "STOPPED", "IDLE"]
+
+Explanation:
+1. ElevatorController(2,1,10) → two cars start at floor 1.
+2. processRequests([...]) assigns 3↔car0, 7↔car1, 5↔car0 and runs until all served:
+   - car0 moves 1→3→5; car1 moves 1→7.
+   Both end STOPPED and IDLE.
+3. getElevatorFloor(1) → 5
+4. getElevatorState(1) → STOPPED
+5. getElevatorDirection(1) → IDLE
+
+Constraints:
+
+- `1 <= n <= 16`
+- `minFloor < maxFloor; range ≤ 100`
+- `1 ≤ number of requests in a single batch ≤ 10^4`
 
 """
 
