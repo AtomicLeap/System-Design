@@ -2,7 +2,7 @@
 
 """
 Implement a simplified, fully deterministic version of the Go Fish card game,
-simulating a multiplayer card game where palyers aim to collect sets of four
+simulating a multiplayer card game where players aim to collect sets of four
 cards of the same rank (books) to win. Watch a video demonstration of the game.
 
 Determinism (no randomness):

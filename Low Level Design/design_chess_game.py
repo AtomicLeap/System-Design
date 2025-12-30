@@ -14,13 +14,14 @@
  - Players should be notified when the game is over and which player has won the game.
 
 1b. Non-Functional Requirements
+ - Consistency of Moves >> Availability.
+ - Low latency of recording and displaying Moves (< 10ms)
  - Scalability
    -  100M DAU. Multiple games should be able to run simultaneously.
  - Human and Bot pair game.
+ - Simulate replay of a saved game.
  - The game should allow undo/redo of moves.
  - The game should allow adding/removing Spectators.
- - Consistency of Moves >> Availability.
- - Low latency of recording and displaying Moves (< 10ms)
 
 """
 
