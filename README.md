@@ -1,12 +1,12 @@
 ## 📌 System Design
 
 This repository is an attempt to curate my journey in learning system design.
-It contains links to resources I stumbled upon in my quest to learn system design that I find very useful and want to keep handy to learn over and over until I have master of them.
+It contains links to resources I stumbled upon in my quest to learn system design that I find very useful and want to keep handy to learn over and over until I have mastery of them.
 
 # Core concepts
  - [Ashish Pratap Singh - System Design was HARD until I Learned these 30 Concepts](https://blog.algomaster.io/p/30-system-design-concepts)
 
-# How to answer LLD interview problems
+# Handling LLD problems
 
 1. Clarify requirements and core use cases.
 2. Identify entities (How many classes will be there)
@@ -16,7 +16,7 @@ It contains links to resources I stumbled upon in my quest to learn system desig
 6. Implement necessary methods 
 7. Exception handling ( errors, exception, edge cases, unexpected input)
 
-# How to answer HLD interview problems
+# Handling HLD problems:
 
 1. Identify requirements
     - Functional Requirements [that defines the functions of the system]
