@@ -110,6 +110,8 @@ Constraints:
     - id: int
     - size: SpotSizeEnum
 
+    - vehicle: Vehicle | None
+
     + isAvailable(): boolean
     + canFitVehicle(vehicle: Vehicle): boolean
     + parkVehicle(vehicle: Vehicle): boolean
@@ -121,6 +123,7 @@ Constraints:
 
     - spots: Spot[]
 
+    + ParkingLevel(levelId: int, numOfSpots: int) -> void
     + initializeSpot(numOfSpots: int)
     + findAvailableSpot(vehicle: VehicleTypeEnum)
     + getAvailableSpotsCount(vehicle: VehicleTypeEnum)
@@ -133,6 +136,9 @@ Constraints:
     - occupied: dict[vehiclePlateNumber: str, spotId: str]
     - SpotMap: dict[spotId: str, ParkingSpot]
 
+
+    
+    + ParkingLot(numOfLevels: int, numOfSpotsPerLevel: int) -> void
     + parkVehicle(vehicle: Vehicle): boolean
     + removeVehicle(vehiclePlateNumber: str): boolean
     + getAvailableSpots(vehicleType: VehicleTypeEnum): int
